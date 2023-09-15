@@ -21,9 +21,8 @@ function onFormSubmit(e) {
   console.log(emailBody);
   
   // Send the custom email
-  GmailApp.sendEmail({
-    to: formData.email,
-    subject: "Thanks for Your Submission",
+  GmailApp.sendEmail(formData.email, 'Thanks for Your Submission', "_", {
     htmlBody: emailBody
   });
 }
+
