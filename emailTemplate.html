@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
   <body>
-    Hi <?= name ?>,
-
-    <p>Thank you for your submission.</p>
-
-    <p>You wrote: <?= message ?></p>
-
-    <p>Best regards,</p>
-    <p>Your Team</p>
+    <h1>Thanks for Your Submission!</h1>
+    <ul>
+      <? for (let i = 0; i < formHeaders.length; i++) { ?>
+        <li><strong><?= formHeaders[i] ?>: </strong> <?= formData[formKeys[i]] ?></li>
+      <? } ?>
+    </ul>
   </body>
 </html>
