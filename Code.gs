@@ -5,8 +5,12 @@ function onFormSubmit(e) {
   const formData = {};
 
   // Populate formData
+  // Populate formData
   formKeys.forEach((key, index) => {
     formData[key] = e.values[index];
+    if (key === 'returnDate') {
+      formData[key] = formatDateToJapanese(formData[key]);
+    }
   });
   console.log(formData);
 
@@ -41,13 +45,13 @@ function onFormSubmit(e) {
   console.log(emailBody);
   
   // Subject string
-  const subject = `[${formData.clientName}] ${formData.productItem} ${formData.requestType} ${formData.numPages}ページ数 提出期限 ${formData.returnDate} (希望)`
+  const subject = `[${formData.clientName}] ${formData.productItem} ${formData.requestType} ${formData.numPages}ページ数 提出期限 ${formData.returnDate}`
 
   // Send the custom email
   GmailApp.sendEmail(formData.email, subject, "_", {
     cc: ccString,
     htmlBody: emailBody,
-    name: "流し込み・赤字反映チェックチーム via daryl.villalobos@link-cc.co.jp"
+    name: "流し込み・赤字反映チェックチーム via"
   });
 }
 
@@ -85,4 +89,18 @@ function getEmailFromName(name) {
   }
   
   return null;
+}
+
+function formatDateToJapanese(dateString) {
+  // Parse the date string into a Date object
+  const date = new Date(dateString);
+
+  // Array to map day numbers to Japanese day names
+  const dayNamesInJapanese = ["日", "月", "火", "水", "木", "金", "土"];
+
+  // Get the day of the week from the Date object
+  const dayOfWeek = dayNamesInJapanese[date.getDay()];
+
+  // Format the date to MM/DD (Day)
+  return `${(date.getMonth() + 1)}/${date.getDate()} (${dayOfWeek})`;
 }
