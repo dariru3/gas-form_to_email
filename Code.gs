@@ -16,6 +16,12 @@ function onFormSubmit(e) {
   /// Use Object.assign() to transfer all properties to emailTemplate
   Object.assign(emailTemplate, { formData, formHeaders, formKeys });  // Added formHeaders and formKeys here
 
+  // Get preferred name from lookup sheet
+  const preferredName = getPreferredName(formData.email);
+  if (preferredName) {
+    Object.assign(emailTemplate, { name: preferredName });
+  }
+
   // Generate the HTML email body
   const emailBody = emailTemplate.evaluate().getContent();
   console.log(emailBody);
@@ -26,3 +32,16 @@ function onFormSubmit(e) {
   });
 }
 
+function getPreferredName(email) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const lookupSheet = ss.getSheetByName("メールリスト"); // Replace "NameLookup" with your actual sheet name
+  const emailColumn = lookupSheet.getRange("A:A").getValues(); // Assuming emails are in column A
+  const preferredNameColumn = lookupSheet.getRange("C:C").getValues(); // Assuming preferred names are in column C
+
+  for (let i = 0; i < emailColumn.length; i++) {
+    if (emailColumn[i][0] === email) {
+      return preferredNameColumn[i][0];
+    }
+  }
+  return null;
+}
