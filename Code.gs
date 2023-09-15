@@ -22,13 +22,32 @@ function onFormSubmit(e) {
     Object.assign(emailTemplate, { name: preferredName });
   }
 
+  // Assume formData.ccAddresses is a comma-separated string of names
+  const namesForCC = formData.ccAddresses.split(", ");
+  const emailsForCC = [];
+
+  for (const name of namesForCC) {
+    const email = getEmailFromName(name);
+    if (email) {
+      emailsForCC.push(email);
+    }
+  }
+
+  // Generate CC string
+  const ccString = emailsForCC.join(", ");
+
   // Generate the HTML email body
   const emailBody = emailTemplate.evaluate().getContent();
   console.log(emailBody);
   
+  // Subject string
+  const subject = `[${formData.clientName}] ${formData.productItem} ${formData.requestType} ${formData.numPages}ページ数 提出期限 ${formData.returnDate} (希望)`
+
   // Send the custom email
-  GmailApp.sendEmail(formData.email, 'Thanks for Your Submission', "_", {
-    htmlBody: emailBody
+  GmailApp.sendEmail(formData.email, subject, "_", {
+    cc: ccString,
+    htmlBody: emailBody,
+    name: "流し込み・赤字反映チェックチーム via daryl.villalobos@link-cc.co.jp"
   });
 }
 
@@ -43,5 +62,27 @@ function getPreferredName(email) {
       return preferredNameColumn[i][0];
     }
   }
+  return null;
+}
+
+function getEmailFromName(name) {
+  // Remove the space from the name
+  const trimmedName = name.replace(" ", "");
+  
+  // Access the lookup sheet
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const lookupSheet = ss.getSheetByName("メールリスト"); // Replace "NameLookup" with your actual sheet name
+  
+  // Assume names are in column B and emails in column A
+  const nameColumn = lookupSheet.getRange("B:B").getValues(); 
+  const emailColumn = lookupSheet.getRange("A:A").getValues(); 
+
+  // Loop through the name column to find a match
+  for (let i = 0; i < nameColumn.length; i++) {
+    if (nameColumn[i][0].replace(" ", "") === trimmedName) {
+      return emailColumn[i][0];
+    }
+  }
+  
   return null;
 }
