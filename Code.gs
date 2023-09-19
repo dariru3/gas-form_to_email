@@ -5,7 +5,6 @@ function onFormSubmit(e) {
   const formData = {};
 
   // Populate formData
-  // Populate formData
   formKeys.forEach((key, index) => {
     formData[key] = e.values[index];
     if (key === 'returnDate') {
@@ -57,9 +56,9 @@ function onFormSubmit(e) {
 
 function getPreferredName(email) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const lookupSheet = ss.getSheetByName("メールリスト"); // Replace "NameLookup" with your actual sheet name
-  const emailColumn = lookupSheet.getRange("A:A").getValues(); // Assuming emails are in column A
-  const preferredNameColumn = lookupSheet.getRange("C:C").getValues(); // Assuming preferred names are in column C
+  const lookupSheet = ss.getSheetByName("メールリスト");
+  const emailColumn = lookupSheet.getRange("A:A").getValues();
+  const preferredNameColumn = lookupSheet.getRange("C:C").getValues();
 
   for (let i = 0; i < emailColumn.length; i++) {
     if (emailColumn[i][0] === email) {
@@ -75,7 +74,7 @@ function getEmailFromName(name) {
   
   // Access the lookup sheet
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const lookupSheet = ss.getSheetByName("メールリスト"); // Replace "NameLookup" with your actual sheet name
+  const lookupSheet = ss.getSheetByName("メールリスト");
   
   // Assume names are in column B and emails in column A
   const nameColumn = lookupSheet.getRange("B:B").getValues(); 
