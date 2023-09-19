@@ -13,12 +13,14 @@ function copyNewEntries() {
   const responseSheet = ss.getSheetByName("Form Responses 1");
   const assignSheet = ss.getSheetByName("Assign");
   const archiveSheet = ss.getSheetByName("Archive");
+
   
   // Get all data from all three sheets
-  const responseData = responseSheet.getRange(2, 1, responseSheet.getLastRow()-1, responseSheet.getLastColumn()).getValues();
-  const assignData = assignSheet.getRange(2, 1, assignSheet.getLastRow()-1, assignSheet.getLastColumn()).getValues();
-  const archiveData = archiveSheet.getRange(2, 1, archiveSheet.getLastRow()-1, archiveSheet.getLastColumn()).getValues();
-  
+  const responseData = responseSheet.getRange(2, 1, responseSheet.getLastRow(), responseSheet.getLastColumn()).getValues();
+  const assignData = assignSheet.getRange(2, 1, assignSheet.getLastRow(), assignSheet.getLastColumn()).getValues();
+  const archiveData = archiveSheet.getRange(2, 1, archiveSheet.getLastRow(), archiveSheet.getLastColumn()).getValues();
+
+
   // Convert timestamps to strings for easier comparison
   const assignTimestamps = assignData.map(row => row[0].toString());
   const archiveTimestamps = archiveData.map(row => row[0].toString());
@@ -34,7 +36,9 @@ function copyNewEntries() {
     const timestamp = responseRow[0].toString();
     
     if (!allKnownTimestamps.has(timestamp)) {
-      newEntries.push(responseRow);
+      //Add additional data: Status set to 'NEW' and Done set to an unchecked checkbox
+      const extendedRow = [...responseRow, 'NEW', '', '', '', ''];
+      newEntries.push(extendedRow);
     }
   }
   
