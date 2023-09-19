@@ -28,6 +28,7 @@ function onFormSubmit(e) {
   // Assume formData.ccAddresses is a comma-separated string of names
   const namesForCC = formData.ccAddresses.split(", ");
   const emailsForCC = [];
+  emailsForCC.push(config.groupEmail);
 
   for (const name of namesForCC) {
     const email = getEmailFromName(name);
