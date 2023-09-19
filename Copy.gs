@@ -1,11 +1,3 @@
-function onOpen() {
-  const ui = SpreadsheetApp.getUi();
-  // Creates a custom menu
-  ui.createMenu('Custom Menu')
-      .addItem('Copy New Entries', 'copyNewEntries')  // The name of the function to run
-      .addToUi();
-}
-
 function copyNewEntries() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -37,14 +29,25 @@ function copyNewEntries() {
     
     if (!allKnownTimestamps.has(timestamp)) {
       //Add additional data: Status set to 'NEW' and Done set to an unchecked checkbox
-      const extendedRow = [...responseRow, 'NEW', '', '', '', ''];
+      const extendedRow = [...responseRow, '', 'NEW', '', '', ''];
       newEntries.push(extendedRow);
     }
   }
   
+  // Get header row and find "Done" column index
+  const headerRow = assignSheet.getRange(1, 1, 1, assignSheet.getLastColumn()).getValues()[0];
+  const doneColumnIndex = headerRow.indexOf("Done") + 1;  // Adding 1 because sheet column indices are 1-based
+
   // Append new entries to "Assign" if any
   if (newEntries.length > 0) {
     const targetRange = assignSheet.getRange(assignSheet.getLastRow() + 1, 1, newEntries.length, newEntries[0].length);
     targetRange.setValues(newEntries);
+
+    // Define the range for the 'Done' checkboxes.
+    const checkboxStartRow = assignSheet.getLastRow() - newEntries.length + 1;
+    const checkboxRange = assignSheet.getRange(checkboxStartRow, doneColumnIndex, newEntries.length);
+    
+    // Insert checkboxes into the 'Done' column for the new rows
+    checkboxRange.insertCheckboxes();
   }
 }
