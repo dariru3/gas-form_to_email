@@ -24,7 +24,9 @@ function onFormSubmit(e) {
   // Get preferred name from lookup sheet
   const preferredName = getPreferredName(formData.email);
   if (preferredName) {
-    Object.assign(emailTemplate, { name: preferredName });
+    Object.assign(emailTemplate, { name: `${preferredName}さん、` });
+  } else {
+    Object.assign(emailTemplate, { name: "" });
   }
 
   // Assume formData.ccAddresses is a comma-separated string of names
@@ -36,6 +38,8 @@ function onFormSubmit(e) {
     const email = getEmailFromName(name);
     if (email) {
       emailsForCC.push(email);
+    } else {
+      console.warn(`Email not found for ${name}`);
     }
   }
 
