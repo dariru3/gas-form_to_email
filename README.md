@@ -1,58 +1,43 @@
 # gas-form_to_email
-# Google Sheets Automation for Task Management
+# Google Sheets Workflow Automation
 
-## Description
+## Overview
 
-This project is designed to automate task management in Google Sheets using Google Apps Script. It consists of multiple components:
+This project is designed to automate a set of specific tasks related to a Google Sheets workflow. It includes functionalities like:
 
-1. A Form Responses sheet that collects responses from an external form.
-2. An Assign sheet where tasks are managed and updated.
-3. An Archive sheet for storing completed tasks.
+- Copy new form submissions to an "Assign" sheet
+- Move rows from the "Assign" sheet to the "Archive" sheet when marked as done
+- Automatically send emails and Google Chat messages on a new submission
 
 ## Features
 
 ### Custom Menu
+- **Copy New Entries**: A custom menu button to initiate the process of copying new entries from the "Form Responses 1" sheet to the "Assign" sheet.
 
-A custom menu is added to Google Sheets allowing users to manually trigger various functions.
-
-### Copy New Entries
-
-New form entries are copied from the Form Responses sheet to the Assign sheet. Duplicates are identified and ignored based on their timestamp.
-
-### Task Management
-
-In the Assign sheet, new tasks are given a status of "NEW" and a checkbox is inserted in the "Done" column.
-
-### Archiving Completed Tasks
-
-Tasks marked as "Done" in the Assign sheet are moved to the Archive sheet along with a timestamp to indicate when they were completed.
+### Triggers
+- **onOpen**: Initializes the custom menu when the sheet is opened.
+- **onFormSubmit**: Triggered upon form submission. It sends an email to the relevant parties and initiates a Google Chat message.
 
 ## Setup
 
-1. Open the Google Sheet you wish to automate.
-2. Go to Extensions > Apps Script to open the script editor.
-3. Paste the code into the editor and save the script.
+1. Open Google Sheets
+2. Navigate to Extensions > Apps Script to open the script editor
+3. Copy the code from the `.gs` file into the script editor
+4. Save the project
+5. Set up appropriate triggers for `onOpen` and `onFormSubmit`
 
-## Usage
+## How it Works
 
-1. Open the Google Sheet.
-2. Use the custom menu to run functions manually.
+1. **onOpen**: Adds a custom menu that has a function to copy new entries from "Form Responses 1" to "Assign."
+2. **Copy New Entries**: Compares the "Form Responses 1" sheet with the "Assign" and "Archive" sheets. Any new entries get copied to the "Assign" sheet.
+3. **onFormSubmit**: Activated upon a new form submission. Fills a pre-defined email template and sends it. Also sends a Google Chat message.
+4. **Moving Rows**: If a row in the "Assign" sheet is marked as 'Done,' it can be moved to the "Archive" sheet along with a timestamp.
 
-## Functions
+## Notes
 
-### `onOpen()`
-
-Adds a custom menu to Google Sheets.
-
-### `copyNewEntries()`
-
-Checks for new entries in the Form Responses sheet and copies them to the Assign sheet, ignoring duplicates.
-
-### `archiveCompletedTasks()`
-
-Moves rows marked as "Done" from the Assign sheet to the Archive sheet and adds a timestamp.
-
-## Dependencies
-
-* Google Sheets
-* Google Apps Script
+### Email Sending
+- The email templates are HTML files and can be customized.
+- Emails are sent with the Gmail API.
+  
+### Google Chat
+- Google Chat messages are sent using webhooks.
