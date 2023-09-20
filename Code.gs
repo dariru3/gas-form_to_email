@@ -13,6 +13,8 @@ function onFormSubmit(e) {
   });
   console.log(formData);
 
+  sendToGoogleChat(formData);
+
   // Fetch the email template and fill in the variables
   const emailTemplate = HtmlService.createTemplateFromFile('emailTemplate');
 
