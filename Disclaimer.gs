@@ -1,7 +1,8 @@
 function getDisclaimer() {
   // Get current time in Tokyo timezone
-  const tokyoTime = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Tokyo' });
-  const tokyoHour = parseInt(tokyoTime.split(':')[0], 10);
+  const tokyoTime = new Date();
+  const tokyoHour = tokyoTime.getHours();
+  console.log("Time:", tokyoTime, "Hour:", tokyoHour)
 
   let disclaimer = "";
 
@@ -12,6 +13,6 @@ function getDisclaimer() {
     disclaimer += "18時以降に送信された依頼は、翌営業日受付となります。ご了承ください。\n";
     disclaimer += "ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー\n";
   }
-
+  console.log("Disclaimer:", disclaimer)
   return disclaimer;
 }
