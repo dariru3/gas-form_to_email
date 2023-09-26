@@ -8,10 +8,7 @@ function getDisclaimer() {
 
   // Check if it's past 6 pm
   if (tokyoHour >= 18) {
-    disclaimer += "ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー\n";
-    disclaimer += "このメールはフォーム入力完了時に自動配信されています。\n";
-    disclaimer += "18時以降に送信された依頼は、翌営業日受付となります。ご了承ください。\n";
-    disclaimer += "ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー\n";
+    disclaimer = "※※※このメールはフォーム入力完了時に自動配信されています。18時以降に送信された依頼は、翌営業日受付となります。ご了承ください。※※※";
   }
   console.log("Disclaimer:", disclaimer)
   return disclaimer;
