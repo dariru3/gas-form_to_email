@@ -21,13 +21,17 @@ function copyNewEntries() {
   const allKnownTimestamps = new Set([...assignTimestamps, ...archiveTimestamps]);
 
   // Initialize an array to hold new entries
-  const newEntries = [];
+  let newEntries = [];
+  let rowsToHide = [];
   
   // Loop through each row in "Response" to see if it exists in the Set
-  for (const responseRow of responseData) {
+  for (let i = 0; i < responseData.length; i++) {
+    const responseRow = responseData[i];
     const timestamp = responseRow[0].toString();
     
-    if (!allKnownTimestamps.has(timestamp)) {
+    if (allKnownTimestamps.has(timestamp)) {
+      rowsToHide.push(i+1);
+    } else {
       //Add additional data: Status set to 'NEW' and Done set to an unchecked checkbox
       const extendedRow = [...responseRow, '', 'NEW', '', '', ''];
       newEntries.push(extendedRow);
@@ -49,5 +53,9 @@ function copyNewEntries() {
     
     // Insert checkboxes into the 'Done' column for the new rows
     checkboxRange.insertCheckboxes();
+  }
+
+  for (const rowIndex of rowsToHide) {
+    responseSheet.hideRows(rowIndex, 1);
   }
 }
