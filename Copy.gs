@@ -55,6 +55,9 @@ function copyNewEntries() {
     checkboxRange.insertCheckboxes();
   }
 
+  // Sort rowsToHide in descending order
+  rowsToHide.sort((a, b) => b - a);
+
   for (const rowIndex of rowsToHide) {
     responseSheet.hideRows(rowIndex, 1);
   }
