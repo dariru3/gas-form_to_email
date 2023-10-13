@@ -29,11 +29,9 @@ function onFormSubmit(e) {
     Object.assign(emailTemplate, { name: "" });
   }
 
-  /* UNUSED
   // Get the disclaimer and add it to the email template
   const disclaimer = getDisclaimer();
   Object.assign(emailTemplate, { disclaimer: disclaimer });
-  */
 
   // Assume formData.ccAddresses is a comma-separated string of names
   const namesForCC = formData.ccAddresses.split(", ");
