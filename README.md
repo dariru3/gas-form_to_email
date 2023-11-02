@@ -1,6 +1,6 @@
 # gas-form_to_email
 # Google Sheets Workflow Automation
-
+![DALL·E 2023-11-02 16 32 41 - A flat icon of a cute robot designed for document checking  The robot has a square head with a digital screen displaying a happy face emoji  Its body ](https://github.com/dariru3/gas-form_to_email/assets/107824734/8866caa8-aa10-4aa3-988f-1ce18119ff1f)
 ## Overview
 
 This project is designed to automate a set of specific tasks related to a Google Sheets workflow. It includes functionalities like:
